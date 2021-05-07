@@ -24,4 +24,8 @@ public class Dice {
 	public int getValue() {
 		return val1 + val2;
 	}
+	
+	public boolean isDouble() {
+		return val1 == val2;
+	}
 }

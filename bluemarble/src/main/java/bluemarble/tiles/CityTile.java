@@ -71,7 +71,7 @@ public class CityTile extends Tile {
 	}
 	
 	
-	public void setSelled() {
+	public void initialize() {
 		this.player = null;
 	}
 }

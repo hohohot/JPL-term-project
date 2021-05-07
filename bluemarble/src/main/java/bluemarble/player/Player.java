@@ -17,7 +17,7 @@ public abstract class Player {
 	
 	public abstract boolean selectBuyOrNot();
 	public abstract BuildingType selectBuilding();
-	public abstract int selectTile();
+	public abstract int selectSpaceTripTile();
 	public abstract int selectSellingTile();
 	
 	

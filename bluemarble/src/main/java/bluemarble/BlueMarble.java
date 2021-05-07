@@ -48,7 +48,7 @@ public class BlueMarble {
 				bankruptCurrentPlayer();
 				return -1;
 			}
-			((CityTile)this.tiles.get(tile)).setSelled();
+			((CityTile)this.tiles.get(tile)).initialize();
 			player.addMoney(((CityTile)this.tiles.get(tile)).getCost());
 		}
 		return 0;
@@ -59,5 +59,7 @@ public class BlueMarble {
 		players.remove(currentTurn);
 	}
 	
-	
+	public static void main(String args[]) {
+		System.out.println("hello!");
+	}
 }
