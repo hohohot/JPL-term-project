@@ -58,7 +58,7 @@ public class CityTile extends Tile {
 			}else 
 				return EventType.NONE;
 		}else if(this.player != currentPlayer) {
-			int sellingResult = blueMarble.sellBuilding(this.fee);
+			int sellingResult = blueMarble.sellProperty(this.fee);
 			
 			if(sellingResult == -1) {
 				this.player.addMoney(+currentPlayer.getMoney());				
@@ -68,6 +68,10 @@ public class CityTile extends Tile {
 			}
 		}
 		return EventType.NONE;
+	}
+	
+	public Long getSellingCost() {
+		return this.cost;
 	}
 	
 	

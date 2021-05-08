@@ -31,6 +31,7 @@ public class GoldenKeyTile extends Tile {
 	@Override
 	public EventType getStopEvent() {
 		Card card = deck.drawCard();
+		blueMarble.getGui().drawGoldenKeyCardView(card);
 		return card.activateEffect();
 	}
 

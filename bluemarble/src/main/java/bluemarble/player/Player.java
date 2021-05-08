@@ -10,10 +10,12 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public abstract class Player {
-	private final BlueMarble blueMarble;
+	protected final BlueMarble blueMarble;
 	private String nameString;
-	private Long position;
-	private Long money;
+	private Long position = 0L;
+	private Long money = 0L;
+	private boolean isBanckupted = false;
+	
 	
 	public abstract boolean selectBuyOrNot();
 	public abstract BuildingType selectBuilding();
@@ -22,6 +24,6 @@ public abstract class Player {
 	
 	
 	public void addMoney(Long money) {
-		this.money = money;
+		this.money += money;
 	}
 }

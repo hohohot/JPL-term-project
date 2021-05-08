@@ -28,7 +28,7 @@ public class SpaceTripTile extends Tile {
 		
 		
 		if(ownerPlayer != null && ownerPlayer != currentPlayer) {
-			int sellingResult = blueMarble.sellBuilding(this.spaceFee);
+			int sellingResult = blueMarble.sellProperty(this.spaceFee);
 			if(sellingResult == -1) {
 				ownerPlayer.addMoney(currentPlayer.getMoney());				
 			}else {

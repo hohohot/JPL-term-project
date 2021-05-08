@@ -35,7 +35,7 @@ public class FundingTile extends Tile {
 		// TODO Auto-generated method stub
 		Player currentPlayer = blueMarble.getCurrentPlayer();
 		
-		int sellingResult = blueMarble.sellBuilding(this.fundingFee);
+		int sellingResult = blueMarble.sellProperty(this.fundingFee);
 		
 		if(sellingResult == -1) {
 			this.benefitTile.setFundedMoneyLong(benefitTile.getFundedMoneyLong() + currentPlayer.getMoney());			

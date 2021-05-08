@@ -1,10 +1,12 @@
 package bluemarble;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.plaf.TreeUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 
 import org.w3c.dom.traversal.NodeIterator;
@@ -48,13 +50,17 @@ public class BlueMarble {
 		nextTurn = 0;
 		
 		while(turnCount < maxTurnLong) {
-			gui.updateDraw();
+			gui.drawBoardView();
 			turnCount++;
-			currentTurn = currentTurn % players.size();
 			currentTurn = nextTurn;
+
 			Player player = getCurrentPlayer();
+			//System.out.println(currentTurn + "turn /" + turnCount + "/"+ player.getMoney());
+
 			Tile tileNow = this.tiles.get(player.getPosition().intValue());
 			nextTurn = (currentTurn+1)%players.size();
+			if(player.isBanckupted())
+				continue;
 			
 			//주사위 던지기
 			if(tileNow.isRollDice()) {
@@ -62,6 +68,7 @@ public class BlueMarble {
 				if(dice.isDouble())
 					nextTurn = currentTurn;
 				gui.drawDice();
+				System.out.println(dice.getValue());
 			}
 			
 			
@@ -84,14 +91,14 @@ public class BlueMarble {
 				int pos = player.getPosition().intValue();
 				while(move > 0) {
 					move--;
-					pos++;
+					pos = (pos+1)%tiles.size();
 					EventType passbyEvent = tiles.get(pos).getPassByEvent();
 					/* event 처리*/
 				}
 				player.setPosition((long)pos);
 			}
 			
-			gui.updateDraw();
+			gui.drawBoardView();
 			
 			//정지 이벤트
 			EventType stopEvent = tiles.get(player.getPosition().intValue()).getStopEvent();
@@ -115,7 +122,7 @@ public class BlueMarble {
 	}
 	
 	
-	public int sellBuilding(Long target) {
+	public int sellProperty(Long target) {
 		Player player = getCurrentPlayer();
 		while(player.getMoney() < target) {
 			int tile = player.selectSellingTile();
@@ -123,15 +130,15 @@ public class BlueMarble {
 				bankruptCurrentPlayer();
 				return -1;
 			}
+			player.addMoney(((CityTile)this.tiles.get(tile)).getSellingCost());
 			((CityTile)this.tiles.get(tile)).initialize();
-			player.addMoney(((CityTile)this.tiles.get(tile)).getCost());
 		}
 		return 0;
 	}
 	
 	
 	public void bankruptCurrentPlayer() {
-		players.remove(currentTurn);
+		this.getCurrentPlayer().setBanckupted(true);
 	}
 	
 	
@@ -141,7 +148,7 @@ public class BlueMarble {
 		Map<BuildingType, Long> greenLineBuildingCostMap = getBuildingMap(150000L, 450000L, 750000L);
 		Map<BuildingType, Long> blueLineBuildingCostMap = getBuildingMap(200000L, 600000L, 1000000L);
 		GoldenKeyTile goldenKeyTile = new GoldenKeyTile("황금열쇠", this, deck);
-		tiles.clear();
+		tiles = new ArrayList<Tile>();
 		
 		
 		
@@ -393,5 +400,36 @@ public class BlueMarble {
 	
 	public static void main(String args[]) {
 		System.out.println("hello!");
+		
+		
+		//gui 생성
+		GUI gui = new GUI();
+		BlueMarble blueMarble = new BlueMarble(gui, 1000L);
+		Deck deck = new Deck(blueMarble);
+		deck.initialize();
+		
+		blueMarble.setDeck(deck);
+		blueMarble.setDice(new Dice());
+		blueMarble.initTile(deck);
+		List<Player> players = new ArrayList<Player>() {{
+			add(new LocalPlayer(blueMarble));
+			add(new LocalPlayer(blueMarble));
+			add(new LocalPlayer(blueMarble));
+			add(new LocalPlayer(blueMarble));
+		}};
+		blueMarble.setPlayers(players);
+		
+		
+		blueMarble.play();
+		
+		for(Player player : blueMarble.getPlayers()) {
+			System.out.println(player.isBanckupted());
+			System.out.println(player.getMoney());
+			System.out.println(player.getPosition());
+		}
+		
+		System.out.println(blueMarble.getTurnCount());
+		
+		
 	}
 }

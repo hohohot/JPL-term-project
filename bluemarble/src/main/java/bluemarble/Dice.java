@@ -11,11 +11,11 @@ public class Dice {
 	public static final int NORAML = 0;
 	private int val1;
 	private int val2;
+	private Random random = new Random(new Date().getTime());
 	
 	public int rollDice() {
-		Random random = new Random(new Date().getTime());
-		val1 = random.nextInt()%6 + 1;
-		val2 = random.nextInt()%6 + 1;
+		val1 = ((random.nextInt())%6+12)%6 + 1;
+		val2 = ((random.nextInt())%6+12)%6 + 1;
 		if(val1 == val2) 
 			return Dice.DUBBLE;
 		return Dice.NORAML;

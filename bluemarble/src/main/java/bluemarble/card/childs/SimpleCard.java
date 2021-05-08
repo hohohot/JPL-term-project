@@ -14,7 +14,7 @@ public class SimpleCard extends Card {
 	@Override
 	public EventType activateEffect() {
 		blueMarble.getCurrentPlayer().addMoney(10000L);
-		return null;
+		return EventType.NONE;
 	}
 
 }
