@@ -49,8 +49,15 @@ public class BlueMarble {
 		turnCount = 0;
 		nextTurn = 0;
 		
+		
+		gui.drawBoardView();
+		gui.drawDice();
+		gui.drawGoldenKeyCardView(null);
 		while(turnCount < maxTurnLong) {
-			gui.drawBoardView();
+			//initial draw
+			gui.drawDice();
+			
+			
 			turnCount++;
 			currentTurn = nextTurn;
 
