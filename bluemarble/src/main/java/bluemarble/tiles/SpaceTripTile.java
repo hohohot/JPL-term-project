@@ -17,6 +17,7 @@ public class SpaceTripTile extends Tile {
 		super(name, blueMarble);
 		this.spaceShipTile = spaceShipTile;
 		this.spaceFee = spaceFee;
+		rollDice = false;
 	}
 
 	@Override

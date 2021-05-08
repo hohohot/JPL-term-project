@@ -9,6 +9,7 @@ import bluemarble.gui.GUI;
 import bluemarble.player.Player;
 import bluemarble.type.BuildingType;
 import bluemarble.type.EventType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -21,7 +22,6 @@ public class CityTile extends Tile {
 	protected Player player;
 	protected final Long cost; //구매가
 	protected final Long fee; //통행료
-	
 	
 	public CityTile(String name, BlueMarble blueMarble, Long cost, Long fee) {
 		super(name, blueMarble);

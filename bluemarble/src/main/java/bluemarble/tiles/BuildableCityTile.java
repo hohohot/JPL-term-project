@@ -8,6 +8,7 @@ import bluemarble.BlueMarble;
 import bluemarble.player.Player;
 import bluemarble.type.BuildingType;
 import bluemarble.type.EventType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,13 +20,13 @@ public class BuildableCityTile extends CityTile {
 	final private Map<BuildingType, Long> buildingCostMap;
 	final private Map<BuildingType, Long> buildingFeeMap;
 	
-	
+	@Builder
 	public BuildableCityTile(String name, BlueMarble blueMarble, Long cost, Long fee,
 			Map<BuildingType, Long> buildingCostMap, Map<BuildingType, Long> buildingFeeMap) {
 		super(name, blueMarble, cost, fee);
 		this.buildingCostMap = buildingCostMap;
 		this.buildingFeeMap = buildingFeeMap;
-		this.buildingList = new ArrayList();
+		this.buildingList = new ArrayList<BuildingType>();
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @RequiredArgsConstructor
 public abstract class Card {
-	private final BlueMarble blueMarble;
+	protected final BlueMarble blueMarble;
 	private final String descriptionString;
 	private final String titleString;
 	

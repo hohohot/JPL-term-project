@@ -16,7 +16,7 @@ public abstract class Tile {
 	final protected BlueMarble blueMarble;
 	
 	private Image tileImage;
-	
+	protected boolean rollDice = true;
 	
 	
 	

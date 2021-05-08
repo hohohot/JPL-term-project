@@ -3,7 +3,12 @@ package bluemarble.tiles;
 import bluemarble.BlueMarble;
 import bluemarble.player.Player;
 import bluemarble.type.EventType;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 public class BenefitTile extends Tile {
 	private Long fundedMoneyLong;
 	public BenefitTile(String name, BlueMarble blueMarble) {
