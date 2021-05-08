@@ -37,7 +37,7 @@ public class SpaceTripTile extends Tile {
 			}
 		}
 		
-		
+		currentPlayer.addMoney(200000L);
 		currentPlayer.setPosition((long)currentPlayer.selectSpaceTripTile());
 		
 		return EventType.SKIP_MOVE;

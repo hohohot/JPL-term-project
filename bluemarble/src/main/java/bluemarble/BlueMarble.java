@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 
+import org.w3c.dom.traversal.NodeIterator;
+
 import bluemarble.card.Card;
 import bluemarble.card.Deck;
 import bluemarble.gui.GUI;
@@ -21,6 +23,7 @@ import bluemarble.tiles.SpaceTripTile;
 import bluemarble.tiles.StartTile;
 import bluemarble.tiles.Tile;
 import bluemarble.type.BuildingType;
+import bluemarble.type.EventType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.RequiredArgsConstructor;
@@ -30,23 +33,71 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BlueMarble {
 	private final GUI gui;
-	
+	private final Long maxTurnLong;
 	
 	private List<Tile> tiles;
-	private List<Card> cards;
+	private Deck deck;
 	private List<Player> players;
 	private Dice dice;
 	private int currentTurn;
 	private int nextTurn;
+	private int turnCount;
 	
 	public int play() {
+		turnCount = 0;
+		nextTurn = 0;
 		
-		
-		
-		
-		
-		
-		
+		while(turnCount < maxTurnLong) {
+			gui.updateDraw();
+			turnCount++;
+			currentTurn = currentTurn % players.size();
+			currentTurn = nextTurn;
+			Player player = getCurrentPlayer();
+			Tile tileNow = this.tiles.get(player.getPosition().intValue());
+			nextTurn = (currentTurn+1)%players.size();
+			
+			//주사위 던지기
+			if(tileNow.isRollDice()) {
+				dice.rollDice();
+				if(dice.isDouble())
+					nextTurn = currentTurn;
+				gui.drawDice();
+			}
+			
+			
+			//타일 이벤트
+			EventType startEvent = tileNow.getStartEvent();
+			
+			if(startEvent == EventType.REDICE) {
+				dice.rollDice();
+				if(dice.isDouble())
+					nextTurn = currentTurn;
+				gui.drawDice();
+			}else if(startEvent == EventType.STOP) {
+				continue;
+			}
+			
+			
+			//주사위에 의한 이동
+			if(startEvent != EventType.SKIP_MOVE) {
+				int move = dice.getValue();
+				int pos = player.getPosition().intValue();
+				while(move > 0) {
+					move--;
+					pos++;
+					EventType passbyEvent = tiles.get(pos).getPassByEvent();
+					/* event 처리*/
+				}
+				player.setPosition((long)pos);
+			}
+			
+			gui.updateDraw();
+			
+			//정지 이벤트
+			EventType stopEvent = tiles.get(player.getPosition().intValue()).getStopEvent();
+
+		}
+
 		return -1;
 	}
 	
@@ -56,6 +107,31 @@ public class BlueMarble {
 			put(BuildingType.BUILDING, building);
 			put(BuildingType.HOTEL, hotel);
 		}};
+	}
+	
+	
+	public Player getCurrentPlayer() {
+		return players.get(currentTurn);
+	}
+	
+	
+	public int sellBuilding(Long target) {
+		Player player = getCurrentPlayer();
+		while(player.getMoney() < target) {
+			int tile = player.selectSellingTile();
+			if(tile == -1) {
+				bankruptCurrentPlayer();
+				return -1;
+			}
+			((CityTile)this.tiles.get(tile)).initialize();
+			player.addMoney(((CityTile)this.tiles.get(tile)).getCost());
+		}
+		return 0;
+	}
+	
+	
+	public void bankruptCurrentPlayer() {
+		players.remove(currentTurn);
 	}
 	
 	
@@ -312,34 +388,8 @@ public class BlueMarble {
 		tiles.add(new CityTile("서울", this, 1000000L, 2000000L));
 	}
 	
-	public int init() {
-		return -1;
-	}
 	
 	
-	public Player getCurrentPlayer() {
-		return players.get(currentTurn);
-	}
-	
-	
-	public int sellBuilding(Long target) {
-		Player player = getCurrentPlayer();
-		while(player.getMoney() < target) {
-			int tile = player.selectSellingTile();
-			if(tile == -1) {
-				bankruptCurrentPlayer();
-				return -1;
-			}
-			((CityTile)this.tiles.get(tile)).initialize();
-			player.addMoney(((CityTile)this.tiles.get(tile)).getCost());
-		}
-		return 0;
-	}
-	
-	
-	public void bankruptCurrentPlayer() {
-		players.remove(currentTurn);
-	}
 	
 	public static void main(String args[]) {
 		System.out.println("hello!");
