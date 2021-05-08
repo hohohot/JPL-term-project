@@ -405,6 +405,7 @@ public class BlueMarble {
 		//gui »ý¼º
 		GUI gui = new GUI();
 		BlueMarble blueMarble = new BlueMarble(gui, 1000L);
+		gui.setBlueMarble(blueMarble);
 		Deck deck = new Deck(blueMarble);
 		deck.initialize();
 		
