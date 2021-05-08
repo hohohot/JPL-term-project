@@ -55,7 +55,7 @@ public class BlueMarble {
 		gui.drawGoldenKeyCardView(null);
 		while(turnCount < maxTurnLong) {
 			//initial draw
-			gui.drawDice();
+			gui.drawBoardView();
 			
 			
 			turnCount++;
