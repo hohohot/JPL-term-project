@@ -113,6 +113,7 @@ public class GUI extends JFrame {
 			}
 		});
 		add(rollButton);
+		rollButton.setVisible(false);
 		
 		exitButton.setBounds(1225, 5, 50, 25); // 버튼 위치
 		exitButton.setBorderPainted(false);
@@ -158,10 +159,12 @@ public class GUI extends JFrame {
 	public void drawDice() {
 		//주사위 그리기xx
 		//roll 버튼 눌르는거 기다리기
+		rollButton.setVisible(true);
 		blueMarble.gui.canWeRoll = true;
 		for(;;) {
 			if (rollPushed) {
 				rollPushed = false;
+				rollButton.setVisible(false);
 				return;
 			} else {
 				try {
@@ -171,12 +174,10 @@ public class GUI extends JFrame {
 				}
 			}
 		}
+	
 	}
 	
-	public void drawBoardView() {
-		//보드판 상황, 플레이어 상황 그리기
-	}
-	
+
 	public void drawGoldenKeyCardView(Card card) {
 		//뽑은 황금열쇠카드 정보 그리기
 	}

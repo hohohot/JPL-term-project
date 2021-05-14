@@ -92,15 +92,11 @@ public class BlueMarble {
 		turnCount = 0;
 		nextTurn = 0;
 		
-		
-		gui.drawBoardView();
-		//gui.drawDice();
+				//gui.drawDice();
 		gui.drawGoldenKeyCardView(null);
 		while(turnCount < maxTurnLong) {
 			//initial draw
-			gui.drawBoardView();
-			
-			
+
 			turnCount++;
 			currentTurn = nextTurn;
 
@@ -118,7 +114,8 @@ public class BlueMarble {
 			if(tileNow.isRollDice()) {
 				
 				//System.out.println(dice.getValue());
-				gui.drawDice(); // roll 버튼이 눌러야 무한 루프 탈출하고 play 진행
+				if(player instanceof LocalPlayer)
+					gui.drawDice(); // roll 버튼이 눌러야 무한 루프 탈출하고 play 진행
 				
 				dice.rollDice();
 				//System.out.println(dice.getValue());
@@ -134,8 +131,8 @@ public class BlueMarble {
 			EventType startEvent = tileNow.getStartEvent();
 			
 			if(startEvent == EventType.REDICE) {
-				//----------------------------------------
-				// 주사위가 double일 경우에는 roll 버튼을 누를 필요가 없으니깐
+				if(player instanceof LocalPlayer)
+					gui.drawDice(); // roll 버튼이 눌러야 무한 루프 탈출하고 play 진행
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -168,8 +165,6 @@ public class BlueMarble {
 				System.out.println("AFTER Player" + player.getNameString() + ": " + Long.valueOf(Optional.ofNullable(player.getPosition()).orElse(0L)).intValue());
 				System.out.println("");
 			}
-			
-			gui.drawBoardView();
 			
 			//정지 이벤트
 			EventType stopEvent = tiles.get(player.getPosition().intValue()).getStopEvent();
