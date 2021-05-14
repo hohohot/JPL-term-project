@@ -199,7 +199,6 @@ public class GUI extends JFrame {
 		blueMarble.getCurrentPlayer().getMoney();
 		*/
 
-		
 		return null;
 	}
 	
