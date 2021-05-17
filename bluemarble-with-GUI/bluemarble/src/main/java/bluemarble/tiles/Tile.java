@@ -21,6 +21,7 @@ public abstract class Tile {
 	//--------------------------------------------
 	public Image tileImage = new ImageIcon(BlueMarble.class.getResource("/images/basic3.png")).getImage();
 	protected boolean rollDice = true;
+	public Long cost;
 	
 	public int xPosition;
 	public int yPosition;

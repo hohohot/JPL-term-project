@@ -34,6 +34,12 @@ public class GUI extends JFrame {
 	private boolean rollPushed = false;
 	public boolean canWeRoll = false;
 	
+	public boolean openBuyBoard = false;
+	public boolean tileBuyBtnPushed = false;
+	public boolean exitBuyBtnPushed = false;
+	public boolean buyTile = false;
+	public boolean unactiveButton = false;
+	
 	Scanner scn = new Scanner(System.in);
 	private int mouseX, mouseY;
 	
@@ -41,15 +47,20 @@ public class GUI extends JFrame {
 	private Graphics screenGraphic;
 	
 	private Image backgroundImage = new ImageIcon(BlueMarble.class.getResource("/images/background.png")).getImage();
+	private Image purchaseBoardImage = new ImageIcon(BlueMarble.class.getResource("/images/purchaseBoard.png")).getImage();
 	private JLabel menuBar = new JLabel(new ImageIcon(BlueMarble.class.getResource("/images/menuBar.png")));
 	
 	private ImageIcon rollButtonBasicImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/rollButtonBasic.png"));
 	private ImageIcon rollButtonEnteredImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/rollButtonEntered.png"));
 	private ImageIcon exitButtonBasicImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/exitButtonBasic.png"));
 	private ImageIcon exitButtonEnteredImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/exitButtonEntered.png"));
+	private ImageIcon buyButtonBasicImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/BuyButtonBasic.png"));
+	private ImageIcon buyButtonEnteredImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/BuyButtonEntered.png"));
 	
 	private JButton rollButton = new JButton(rollButtonBasicImage);
 	private JButton exitButton = new JButton(exitButtonBasicImage);
+	private JButton tileBuyButton = new JButton(buyButtonBasicImage);
+	private JButton exitBuyButton = new JButton(exitButtonBasicImage);
 	
 	public GUI() {
 		setUndecorated(true);
@@ -83,6 +94,7 @@ public class GUI extends JFrame {
 				p.screenDraw(g);
 			}
 			blueMarble.getDice().screenDraw(g);
+			if(openBuyBoard) g.drawImage(purchaseBoardImage, 240, 190, null);
 			paintComponents(g); // 부가 요소들 직접 그리는 거 add한거
 		}
 
@@ -114,6 +126,61 @@ public class GUI extends JFrame {
 		});
 		add(rollButton);
 		rollButton.setVisible(false);
+		
+		tileBuyButton.setBounds(410, 300, 150, 100); // 버튼 위치
+		tileBuyButton.setBorderPainted(false);
+		tileBuyButton.setContentAreaFilled(false);
+		tileBuyButton.setFocusPainted(false);
+		tileBuyButton.addMouseListener(new MouseAdapter() { // 버튼 리스너 <- 암튼 버튼에 관한 마우스 액션을 감지
+			@Override
+			public void mouseEntered(MouseEvent e) { // 그러다가 커서를 가져다 놓는다는 액션
+				tileBuyButton.setIcon(buyButtonEnteredImage);
+				tileBuyButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) { // 커서를 다시 떼놓는다는 액션
+				if(!unactiveButton) {
+					tileBuyButton.setIcon(buyButtonBasicImage);
+					tileBuyButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				}
+			}
+			@Override
+			public void mousePressed(MouseEvent e) { // 눌르는 액션 에 대해 이와 같은 행동을 한다 딴 액션들은 그냥 어뎁터 클래스가 리턴해줌
+				if(!unactiveButton)  {
+					tileBuyBtnPushed = true; // if 예산이 충분하면 일단 전긍정
+					blueMarble.getTiles()
+					.get(blueMarble.getCurrentPlayer().getPosition().intValue()).tileImage = 
+					new ImageIcon(BlueMarble.class.getResource("/images/tiles/basicP" + blueMarble.getCurrentPlayer().getNameString()
+							+ ".png")).getImage();
+				}
+				unactiveButton = true;
+			}
+		});
+		add(tileBuyButton);
+		tileBuyButton.setVisible(false);
+		
+		exitBuyButton.setBounds(680, 190, 50, 25);
+		exitBuyButton.setBorderPainted(false);
+		exitBuyButton.setContentAreaFilled(false);
+		exitBuyButton.setFocusPainted(false);
+		exitBuyButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				exitBuyButton.setIcon(exitButtonEnteredImage);
+				exitBuyButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				exitBuyButton.setIcon(exitButtonBasicImage);
+				exitBuyButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				exitBuyBtnPushed = true;
+			}
+		});
+		add(exitBuyButton);
+		exitBuyButton.setVisible(false);
 		
 		exitButton.setBounds(1225, 5, 50, 25); // 버튼 위치
 		exitButton.setBorderPainted(false);
@@ -184,7 +251,50 @@ public class GUI extends JFrame {
 	
 	public boolean selectBuyOrNot() {
 		//땅을 살지 안살지 선택
-		return false;
+		// 초기화
+		openBuyBoard = true; // 구매 보드 열기
+		rollButton.setVisible(false); // 롤 버튼 가리고
+		tileBuyButton.setVisible(true); // 타일 구매 버튼 활성화
+		exitBuyButton.setVisible(true); // 구매 보드 닫는 버튼 활성화
+		buyTile = false; // 초기값 <- 타일 안샀음
+		unactiveButton = false;
+		
+		if(blueMarble.getCurrentPlayer().getMoney() < blueMarble.getTiles()
+				.get(blueMarble.getCurrentPlayer().getPosition().intValue()).cost) unactiveButton = true;
+		if(unactiveButton) tileBuyButton.setIcon(buyButtonEnteredImage);
+		else tileBuyButton.setIcon(buyButtonBasicImage);
+		
+		
+		System.out.print("first wallet: " + blueMarble.getCurrentPlayer().getMoney());
+		System.out.println("  tile cost: " + blueMarble.getTiles()
+				.get(blueMarble.getCurrentPlayer().getPosition().intValue()).cost);
+		
+		for(;;) {
+			if (tileBuyBtnPushed || exitBuyBtnPushed) { // 구매 버튼이 눌리면 or 캔슬 버튼이 눌리면 진입
+	
+				if(exitBuyBtnPushed) {
+					System.out.println("Entered");
+					openBuyBoard = false;
+					rollButton.setVisible(true);
+					tileBuyButton.setVisible(false);
+					exitBuyButton.setVisible(false);
+					exitBuyBtnPushed = false;
+					unactiveButton = false;
+					
+					return buyTile; // 이때 샀는지 안샀는지를 return
+				}
+				
+				tileBuyBtnPushed = false;
+				buyTile = true;
+			} else {
+				try {
+					Thread.sleep(5);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
 	}
 	
 	public BuildingType selectBuilding() {
@@ -198,8 +308,28 @@ public class GUI extends JFrame {
 		/* 플레이어 잔액 조회
 		blueMarble.getCurrentPlayer().getMoney();
 		*/
+		//System.out.println("?");
+		//doPurchase = true;
+		//rollButton.setVisible(false);
+		
+		/*
+		for(;;) {
+			if (rollPushed) {
+				System.out.println("?");
+				rollPushed = false;
+				rollButton.setVisible(false);
+				return null;
+			} else {
+				try {
+					Thread.sleep(5);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		*/
 
-		return null;
+		return BuildingType.NONE;
 	}
 	
 	public int selectSpaceTripTile() {

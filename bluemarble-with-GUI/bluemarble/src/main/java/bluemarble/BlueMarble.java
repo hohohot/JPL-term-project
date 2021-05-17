@@ -147,6 +147,7 @@ public class BlueMarble {
 				continue;
 			}
 			
+			//System.out.println("?");
 			
 			//주사위에 의한 이동
 			if(startEvent != EventType.SKIP_MOVE) {
@@ -167,6 +168,7 @@ public class BlueMarble {
 			}
 			
 			//정지 이벤트
+			//System.out.println(tiles.get(player.getPosition().intValue()).);
 			EventType stopEvent = tiles.get(player.getPosition().intValue()).getStopEvent();
 
 		}

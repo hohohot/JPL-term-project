@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 public class CityTile extends Tile {
 	protected Player player;
-	protected final Long cost; //구매가
+	//protected final Long cost; //구매가
 	protected final Long fee; //통행료
 	
 	public CityTile(String name, BlueMarble blueMarble, Long cost, Long fee) {
@@ -48,10 +48,11 @@ public class CityTile extends Tile {
 	public EventType getStopEvent() {
 		Player currentPlayer = blueMarble.getCurrentPlayer(); // 현재 플레이어 객체
 		if(this.player == null) { // 주인이 없으면
-			if(currentPlayer.getMoney() < this.cost) // 돈이 없으면
-				return EventType.NONE; // 끝, 아무일도 없음
+			//if(currentPlayer.getMoney() < this.cost) // 돈이 없으면
+				//return EventType.NONE; // 끝, 아무일도 없음
 			
 			boolean isBuy = currentPlayer.selectBuyOrNot(); // 살지 말지 정하기(아직 구현 안된듯)
+			System.out.println("isBuy: " +isBuy);
 			if(isBuy) { // 산다면
 				currentPlayer.addMoney(-this.cost); // 돈 빼기
 				this.player = currentPlayer;  // 주인 설정
@@ -64,6 +65,7 @@ public class CityTile extends Tile {
 				this.player.addMoney(+currentPlayer.getMoney());				
 			}else {
 				currentPlayer.addMoney(-this.fee);
+				System.out.println("second wallet: " + blueMarble.getCurrentPlayer().getMoney());
 				this.player.addMoney(+this.fee);				
 			}
 		}

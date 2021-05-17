@@ -21,7 +21,7 @@ public abstract class Player {
 	protected final BlueMarble blueMarble;
 	private String nameString;
 	private Long position = 0L;
-	private Long money = 0L;
+	private Long money = 100000L;
 	private boolean isBanckupted = false;
 	
 	//------------------------------------------
