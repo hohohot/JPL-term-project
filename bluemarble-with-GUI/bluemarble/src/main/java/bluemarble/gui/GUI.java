@@ -37,7 +37,6 @@ public class GUI extends JFrame {
 	public boolean openBuyBoard = false;
 	public boolean tileBuyBtnPushed = false;
 	public boolean exitBuyBtnPushed = false;
-	public boolean buyTile = false;
 	public boolean unactiveButton = false;
 	
 	Scanner scn = new Scanner(System.in);
@@ -148,10 +147,6 @@ public class GUI extends JFrame {
 			public void mousePressed(MouseEvent e) { // 눌르는 액션 에 대해 이와 같은 행동을 한다 딴 액션들은 그냥 어뎁터 클래스가 리턴해줌
 				if(!unactiveButton)  {
 					tileBuyBtnPushed = true; // if 예산이 충분하면 일단 전긍정
-					blueMarble.getTiles()
-					.get(blueMarble.getCurrentPlayer().getPosition().intValue()).tileImage = 
-					new ImageIcon(BlueMarble.class.getResource("/images/tiles/basicP" + blueMarble.getCurrentPlayer().getNameString()
-							+ ".png")).getImage();
 				}
 				unactiveButton = true;
 			}
@@ -252,15 +247,23 @@ public class GUI extends JFrame {
 	public boolean selectBuyOrNot() {
 		//땅을 살지 안살지 선택
 		// 초기화
+		System.out.println(blueMarble.getTiles()
+				.get(blueMarble.getCurrentPlayer().getPosition().intValue()).getName());
+		System.out.println(blueMarble.getCurrentPlayer().getMoney() + "/"+
+				blueMarble.getTiles()
+		.get(blueMarble.getCurrentPlayer().getPosition().intValue()).getCost()
+		);
+		if(blueMarble.getCurrentPlayer().getMoney() < blueMarble.getTiles()
+				.get(blueMarble.getCurrentPlayer().getPosition().intValue()).cost)
+			return false;
+		
 		openBuyBoard = true; // 구매 보드 열기
 		rollButton.setVisible(false); // 롤 버튼 가리고
 		tileBuyButton.setVisible(true); // 타일 구매 버튼 활성화
 		exitBuyButton.setVisible(true); // 구매 보드 닫는 버튼 활성화
-		buyTile = false; // 초기값 <- 타일 안샀음
 		unactiveButton = false;
 		
-		if(blueMarble.getCurrentPlayer().getMoney() < blueMarble.getTiles()
-				.get(blueMarble.getCurrentPlayer().getPosition().intValue()).cost) unactiveButton = true;
+		
 		if(unactiveButton) tileBuyButton.setIcon(buyButtonEnteredImage);
 		else tileBuyButton.setIcon(buyButtonBasicImage);
 		
@@ -269,10 +272,12 @@ public class GUI extends JFrame {
 		System.out.println("  tile cost: " + blueMarble.getTiles()
 				.get(blueMarble.getCurrentPlayer().getPosition().intValue()).cost);
 		
+		tileBuyBtnPushed = false;
+		exitBuyBtnPushed = false;
 		for(;;) {
 			if (tileBuyBtnPushed || exitBuyBtnPushed) { // 구매 버튼이 눌리면 or 캔슬 버튼이 눌리면 진입
 	
-				if(exitBuyBtnPushed) {
+				if(true) {
 					System.out.println("Entered");
 					openBuyBoard = false;
 					rollButton.setVisible(true);
@@ -281,11 +286,8 @@ public class GUI extends JFrame {
 					exitBuyBtnPushed = false;
 					unactiveButton = false;
 					
-					return buyTile; // 이때 샀는지 안샀는지를 return
+					return tileBuyBtnPushed; // 이때 샀는지 안샀는지를 return
 				}
-				
-				tileBuyBtnPushed = false;
-				buyTile = true;
 			} else {
 				try {
 					Thread.sleep(5);

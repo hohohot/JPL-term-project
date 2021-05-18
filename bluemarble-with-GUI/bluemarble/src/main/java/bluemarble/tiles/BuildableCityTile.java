@@ -40,6 +40,9 @@ public class BuildableCityTile extends CityTile {
 	@Override
 	public EventType getStopEvent() {
 		Player currentPlayer = blueMarble.getCurrentPlayer(); 
+		System.out.println("owner : " + this.player);
+		System.out.println("curr : " + currentPlayer);
+		
 		if(this.player == null) {
 			//if(currentPlayer.getMoney() < this.cost)
 				//return EventType.NONE;
@@ -68,7 +71,7 @@ public class BuildableCityTile extends CityTile {
 			}
 		}else {
 			BuildingType selectedBuildingType = player.selectBuilding();
-			if(selectedBuildingType != BuildingType.NONE){
+			if(!selectedBuildingType.equals(BuildingType.NONE)){
 				player.addMoney(-buildingCostMap.get(selectedBuildingType));
 				this.buildingList.add(selectedBuildingType);
 			}
@@ -92,8 +95,11 @@ public class BuildableCityTile extends CityTile {
 	}
 	
 	public Long getFee() {
-		System.out.println((Long)buildingList.stream().map(p->buildingFeeMap.get(p)).reduce((a,b)->a+b).get());
-		return this.fee + (Long)buildingList.stream().map(p->buildingFeeMap.get(p)).reduce((a,b)->a+b).get();
+		Long retVal = 0L;
+		for(BuildingType building : buildingList) {
+			retVal += buildingFeeMap.get(building);
+		}
+		return retVal;
 	}
 
 }

@@ -1,7 +1,10 @@
 package bluemarble.tiles;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.nio.channels.SelectableChannel;
 
+import javax.swing.ImageIcon;
 import javax.swing.plaf.synth.SynthButtonUI;
 
 import bluemarble.BlueMarble;
@@ -19,9 +22,16 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CityTile extends Tile {
-	protected Player player;
+	protected Player player = null;
 	//protected final Long cost; //구매가
 	protected final Long fee; //통행료
+	protected static final Image[] images = new Image[] {
+			null,
+			new ImageIcon(BlueMarble.class.getResource("/images/tiles/basicP1.png")).getImage(),
+			new ImageIcon(BlueMarble.class.getResource("/images/tiles/basicP2.png")).getImage(),
+			new ImageIcon(BlueMarble.class.getResource("/images/tiles/basicP3.png")).getImage(),
+			new ImageIcon(BlueMarble.class.getResource("/images/tiles/basicP4.png")).getImage()
+	};
 	
 	public CityTile(String name, BlueMarble blueMarble, Long cost, Long fee) {
 		super(name, blueMarble);
@@ -29,6 +39,13 @@ public class CityTile extends Tile {
 		this.fee = fee;
 	}
 
+	@Override
+	public void screenDraw(Graphics2D g) {
+		if(player == null)
+			g.drawImage(tileImage, xPosition, yPosition, null);
+		else
+			g.drawImage(images[player.getId()], xPosition, yPosition, null);
+	}
 
 	@Override
 	public EventType getStartEvent() {

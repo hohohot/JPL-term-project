@@ -29,6 +29,7 @@ public abstract class Player {
 	public ArrayList<Pair> positionList;
 	public int xPosition, xTemp;
 	public int yPosition, yTemp;
+	private int id;
 	
 	public void screenDraw(Graphics2D g) {
 		xPosition = positionList.get(Long.valueOf(Optional.ofNullable(position).orElse(0L)).intValue()).getX();
