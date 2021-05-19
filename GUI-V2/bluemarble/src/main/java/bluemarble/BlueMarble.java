@@ -499,6 +499,7 @@ public class BlueMarble {
 			p.positionList = blueMarble.positionList;
 			p.setNameString(String.valueOf(somethingVal));
 			p.setId(somethingVal);
+			p.setMoney(1000000L);
 			p.playerImage = new ImageIcon(BlueMarble.class.getResource("/images/players/player" + somethingVal + ".png")).getImage();
 			somethingVal++;
 		}

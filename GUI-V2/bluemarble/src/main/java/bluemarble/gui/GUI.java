@@ -71,6 +71,11 @@ public class GUI extends JFrame {
 	private JButton buildingBuyButton = new JButton(buyBuildingButtonBasicImage);
 	private JButton hotelBuyButton = new JButton(buyHotelButtonBasicImage);
 	
+	
+	private JLabel villaCostLabel = new JLabel();
+	private JLabel buildingCostLabel = new JLabel();
+	private JLabel hotelCostLabel = new JLabel();
+	
 	public GUI() {
 		setUndecorated(true);
 		setTitle("Test Frame");
@@ -164,6 +169,12 @@ public class GUI extends JFrame {
 		add(tileBuyButton);
 		tileBuyButton.setVisible(false);
 		
+		villaCostLabel.setBounds(320, 400, 100, 30);
+		villaCostLabel.setText("hello");
+		villaCostLabel.setVisible(false);
+		add(villaCostLabel);
+		
+		
 		villaBuyButton.setBounds(320, 500, 100, 100); // 버튼 위치 //435
 		villaBuyButton.setBorderPainted(false);
 		villaBuyButton.setContentAreaFilled(false);
@@ -222,6 +233,12 @@ public class GUI extends JFrame {
 		add(buildingBuyButton);
 		buildingBuyButton.setVisible(false);
 		
+		buildingCostLabel.setBounds(435, 400, 100, 30);
+		buildingCostLabel.setText("hello");
+		buildingCostLabel.setVisible(false);
+		add(buildingCostLabel);
+		
+		
 		hotelBuyButton.setBounds(550, 500, 100, 100); // 버튼 위치 //435
 		hotelBuyButton.setBorderPainted(false);
 		hotelBuyButton.setContentAreaFilled(false);
@@ -250,6 +267,12 @@ public class GUI extends JFrame {
 		});
 		add(hotelBuyButton);
 		hotelBuyButton.setVisible(false);
+		
+		hotelCostLabel.setBounds(550, 400, 100, 30);
+		hotelCostLabel.setText("hello");
+		hotelCostLabel.setVisible(false);
+		add(hotelCostLabel);
+		
 		
 		exitBuyButton.setBounds(680, 190, 50, 25);
 		exitBuyButton.setBorderPainted(false);
@@ -313,6 +336,9 @@ public class GUI extends JFrame {
 			}
 		});
 		add(menuBar);
+		
+		
+		
 	}
 	
 	public void drawDice() {
@@ -408,6 +434,13 @@ public class GUI extends JFrame {
 		blueMarble.getCurrentPlayer().getMoney();
 		*/
 		
+		
+		
+		
+		
+		
+		
+		
 		openBuyBoard = true; // 구매 보드 열기
 		rollButton.setVisible(false); // 롤 버튼 가리고
 		villaBuyButton.setVisible(true); // 구매 버튼 활성화
@@ -417,6 +450,13 @@ public class GUI extends JFrame {
 		
 		currentTile = (BuildableCityTile)blueMarble.getTiles()
 				.get(blueMarble.getCurrentPlayer().getPosition().intValue());
+		
+		villaCostLabel.setVisible(true);
+		buildingCostLabel.setVisible(true);
+		hotelCostLabel.setVisible(true);
+		villaCostLabel.setText(currentTile.getBuildingCostMap().get(BuildingType.VILLA).toString());
+		buildingCostLabel.setText(currentTile.getBuildingCostMap().get(BuildingType.BUILDING).toString());
+		hotelCostLabel.setText(currentTile.getBuildingCostMap().get(BuildingType.HOTEL).toString());
 		
 		/* unactive 초기화 + 타겟 설정 */
 		BuildingType targetBuilding = BuildingType.NONE;
