@@ -41,7 +41,11 @@ public class CityTile extends Tile {
 
 	@Override
 	public void screenDraw(Graphics2D g) {
-		if(player == null)
+		if(blueMarble.getGui().selectingTripTile)
+			g.drawImage(clickableTileImage, xPosition, yPosition, null);
+		else if(blueMarble.getGui().selectingTile && blueMarble.getCurrentPlayer()==this.player)
+			g.drawImage(clickableTileImage, xPosition, yPosition, null);
+		else if(player == null)
 			g.drawImage(tileImage, xPosition, yPosition, null);
 		else
 			g.drawImage(images[player.getId()], xPosition, yPosition, null);

@@ -18,24 +18,9 @@ public class GoldenKeyTile extends Tile {
 	public GoldenKeyTile(String name, BlueMarble blueMarble, Deck deck) {
 		super(name, blueMarble);
 		this.deck = deck;
-		super.tileImage = new ImageIcon(BlueMarble.class.getResource("/images/goldenKey.png")).getImage(); //
+		this.tileImage = new ImageIcon(BlueMarble.class.getResource("/images/goldenKey.png")).getImage(); //
 	}
 	
-	//---------------------------------------
-	@Override
-	public void screenDraw(Graphics2D g) {
-		g.drawImage(tileImage, 100, 610, null);
-		g.drawImage(tileImage, 100, 260, null);
-		
-		g.drawImage(tileImage, 240, 50, null);
-		g.drawImage(tileImage, 590, 50, null);
-		
-		g.drawImage(tileImage, 800, 190, null);
-		g.drawImage(tileImage, 800, 610, null);
-		
-		g.drawImage(tileImage, 450, 750, null);
-		//골드 키 개수만큼 추가
-	}
 	//---------------------------------------
 
 	@Override

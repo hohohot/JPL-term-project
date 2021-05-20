@@ -8,6 +8,8 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseListener;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.ImageIcon;
@@ -18,7 +20,10 @@ import javax.swing.JLabel;
 import bluemarble.BlueMarble;
 import bluemarble.card.Card;
 import bluemarble.player.Player;
+import bluemarble.tiles.CityTile;
 import bluemarble.tiles.BuildableCityTile;
+import bluemarble.tiles.Tile;
+import bluemarble.tiles.SpaceTripTile;
 import bluemarble.type.BuildingType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +31,7 @@ import lombok.Setter;
 
 //@Getter
 @Setter
-public class GUI extends JFrame {
+public class GUI extends JFrame implements MouseListener{
 	private BlueMarble blueMarble; // 자동으로 set 되겠네
 	private BuildableCityTile currentTile;
 	
@@ -39,6 +44,13 @@ public class GUI extends JFrame {
 	public boolean tileBuyBtnPushed = false;
 	public boolean exitBuyBtnPushed = false;
 	public boolean unactiveButton = false;
+	
+	public boolean selectingTile = false;
+	public boolean selectingTripTile = false;
+	public boolean isClicked = false;
+	public int mouseXPos = 0;
+	public int mouseYPos = 0;
+	
 	
 	Scanner scn = new Scanner(System.in);
 	private int mouseX, mouseY;
@@ -86,6 +98,7 @@ public class GUI extends JFrame {
 		setVisible(true);	
 		setBackground(new Color(0, 0, 0, 0));
 		setLayout(null);
+		this.addMouseListener(this);
 		
 		buttonSetting();
 	}
@@ -510,6 +523,10 @@ public class GUI extends JFrame {
 				exitBuyButton.setVisible(false);
 				exitBuyBtnPushed = false;
 				
+				villaCostLabel.setVisible(false);
+				buildingCostLabel.setVisible(false);
+				hotelCostLabel.setVisible(false);
+				
 				if(tileBuyBtnPushed) {
 					tileBuyBtnPushed = false;
 					return targetBuilding;
@@ -525,17 +542,103 @@ public class GUI extends JFrame {
 			}
 		}
 
-		//return BuildingType.NONE;
 	}
 	
 	public int selectSpaceTripTile() {
 		//우주여행을 갈 타일 선택. 우주여행 타일은 선택 불가능.
-		return 0; //타일의 idx 반환
+		selectingTripTile = true;
+		List<Tile> tiles = this.blueMarble.getTiles();
+		while(true) {
+			if(this.isClicked) {
+				this.isClicked = false;
+				for(int i = 0; i < tiles.size(); i++) {
+					if(tiles.get(i).isInRange(this.mouseXPos, this.mouseYPos)) {
+						if(tiles.get(i) instanceof SpaceTripTile) break;
+						selectingTripTile = false;
+						return i;
+					}
+				}
+			}
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	
 	public int selectSellingTile() {
-		// 판매할 타일 선택. 선택할 타일 없을 시 -1 반환. 다른 경우 0반환.
-		return -1;
+		selectingTripTile = true;
+		List<Tile> tiles = this.blueMarble.getTiles();
+		
+		int idx;
+		for(idx = 0; idx < tiles.size(); idx++) {
+			if(!(tiles.get(idx) instanceof CityTile) && !(tiles.get(idx) instanceof BuildableCityTile)) continue;
+			if(((CityTile)tiles.get(idx)).getPlayer() == blueMarble.getCurrentPlayer()) break;
+		}
+		if(idx >= tiles.size())
+			return -1;
+		
+		selectingTile = true;
+		
+		while(true) {
+			if(this.isClicked) {
+				this.isClicked = false;
+				for(int i = 0; i < tiles.size(); i++) {
+					if(tiles.get(i).isInRange(this.mouseXPos, this.mouseYPos)) {
+						if(!(tiles.get(i) instanceof CityTile) && !(tiles.get(i) instanceof BuildableCityTile)) break;
+						if(((CityTile)tiles.get(i)).getPlayer() != blueMarble.getCurrentPlayer()) break;
+						selectingTile = false;
+						return i;
+					}
+				}
+			}
+			try {
+				Thread.sleep(5);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	
+	
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if(selectingTile || selectingTripTile) {
+			this.isClicked = true;
+			this.mouseXPos = e.getX();
+			this.mouseYPos = e.getY();
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

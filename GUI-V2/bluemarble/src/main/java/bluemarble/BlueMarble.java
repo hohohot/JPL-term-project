@@ -215,7 +215,6 @@ public class BlueMarble {
 		Map<BuildingType, Long> yellowLineBuildingCostMap = getBuildingMap(100000L, 300000L, 500000L);
 		Map<BuildingType, Long> greenLineBuildingCostMap = getBuildingMap(150000L, 450000L, 750000L);
 		Map<BuildingType, Long> blueLineBuildingCostMap = getBuildingMap(200000L, 600000L, 1000000L);
-		GoldenKeyTile goldenKeyTile = new GoldenKeyTile("황금열쇠", this, deck);
 		tiles = new ArrayList<Tile>();
 		
 		
@@ -232,7 +231,7 @@ public class BlueMarble {
 				.buildingFeeMap(getBuildingMap(10000L, 90000L, 250000L))
 				.build()
 				);
-		tiles.add(goldenKeyTile);
+		tiles.add(new GoldenKeyTile("황금열쇠", this, deck));
 		tiles.add(BuildableCityTile.builder()
 				.name("베이징")
 				.blueMarble(this)
@@ -261,7 +260,7 @@ public class BlueMarble {
 				.buildingFeeMap(getBuildingMap(30000L, 270000L, 550000L))
 				.build()
 				);
-		tiles.add(goldenKeyTile);
+		tiles.add(new GoldenKeyTile("황금열쇠", this, deck));
 		tiles.add(BuildableCityTile.builder()
 				.name("카이로")
 				.blueMarble(this)
@@ -293,7 +292,7 @@ public class BlueMarble {
 				.buildingFeeMap(getBuildingMap(50000L, 450000L, 750000L))
 				.build()
 				);
-		tiles.add(goldenKeyTile);
+		tiles.add(new GoldenKeyTile("황금열쇠", this, deck));
 		tiles.add(BuildableCityTile.builder()
 				.name("코펜하겐")
 				.blueMarble(this)
@@ -322,7 +321,7 @@ public class BlueMarble {
 				.buildingFeeMap(getBuildingMap(70000L, 500000L, 950000L))
 				.build()
 				);
-		tiles.add(goldenKeyTile);
+		tiles.add(new GoldenKeyTile("황금열쇠", this, deck));
 		tiles.add(BuildableCityTile.builder()
 				.name("베를린")
 				.blueMarble(this)
@@ -357,7 +356,7 @@ public class BlueMarble {
 				.buildingFeeMap(getBuildingMap(90000L, 700000L, 1050000L))
 				.build()
 				);
-		tiles.add(goldenKeyTile);
+		tiles.add(new GoldenKeyTile("황금열쇠", this, deck));
 		tiles.add(BuildableCityTile.builder()
 				.name("상파울로")
 				.blueMarble(this)
@@ -395,7 +394,7 @@ public class BlueMarble {
 				.buildingFeeMap(getBuildingMap(110000L, 800000L, 1150000L))
 				.build()
 				);
-		tiles.add(goldenKeyTile);
+		tiles.add(new GoldenKeyTile("황금열쇠", this, deck));
 		tiles.add(BuildableCityTile.builder()
 				.name("마드리드")
 				.blueMarble(this)
@@ -440,7 +439,7 @@ public class BlueMarble {
 				.buildingFeeMap(getBuildingMap(150000L, 100000L, 1400000L))
 				.build()
 				);
-		tiles.add(goldenKeyTile);
+		tiles.add(new GoldenKeyTile("황금열쇠", this, deck));
 		tiles.add(BuildableCityTile.builder()
 				.name("런던")
 				.blueMarble(this)
@@ -461,6 +460,10 @@ public class BlueMarble {
 				);
 		tiles.add(new FundingTile("사회복지기금 접수처", this, benefitTile, 150000L));
 		tiles.add(new CityTile("서울", this, 1000000L, 2000000L));
+		
+		for(int i = 0; i < tiles.size(); i++) {
+			tiles.get(i).setIdx(i);
+		}
 	}
 	
 	
@@ -503,6 +506,9 @@ public class BlueMarble {
 			p.playerImage = new ImageIcon(BlueMarble.class.getResource("/images/players/player" + somethingVal + ".png")).getImage();
 			somethingVal++;
 		}
+		
+		
+		
 		blueMarble.getDice().blueMarble = blueMarble;
 		blueMarble.setPosition();
 		for(int i = 0; i < 40; i++) {
@@ -512,6 +518,7 @@ public class BlueMarble {
 		//---------------------------------------
 		
 		blueMarble.play();
+	
 		
 		for(Player player : blueMarble.getPlayers()) {
 			System.out.println(player.isBanckupted());

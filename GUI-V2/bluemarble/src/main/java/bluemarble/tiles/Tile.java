@@ -20,16 +20,26 @@ public abstract class Tile {
 	
 	//--------------------------------------------
 	public Image tileImage = new ImageIcon(BlueMarble.class.getResource("/images/basic3.png")).getImage();
+	public Image clickableTileImage = new ImageIcon(BlueMarble.class.getResource("/images/click.png")).getImage();
 	protected boolean rollDice = true;
 	public Long cost;
 	
 	public int xPosition;
 	public int yPosition;
 	
+	private int idx;
+	
 	public void screenDraw(Graphics2D g) {
-		g.drawImage(tileImage, xPosition, yPosition, null);
+		if(blueMarble.getGui().selectingTripTile)
+			g.drawImage(clickableTileImage, xPosition, yPosition, null);
+		else
+			g.drawImage(tileImage, xPosition, yPosition, null);
 	}
 	//--------------------------------------------
+	public boolean isInRange(int x, int y) {
+		return x > xPosition && x < xPosition+70 && y > yPosition && y < yPosition + 70;
+	}
+	
 	
 	public abstract EventType getStartEvent();
 	public abstract EventType getPassByEvent();

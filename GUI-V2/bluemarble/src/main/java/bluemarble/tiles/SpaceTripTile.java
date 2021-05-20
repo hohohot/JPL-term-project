@@ -1,5 +1,7 @@
 package bluemarble.tiles;
 
+import java.awt.Graphics2D;
+
 import javax.swing.ImageIcon;
 
 import bluemarble.BlueMarble;
@@ -21,6 +23,11 @@ public class SpaceTripTile extends Tile {
 		this.spaceFee = spaceFee;
 		rollDice = false;
 		super.tileImage = new ImageIcon(BlueMarble.class.getResource("/images/space.png")).getImage();
+	}
+	
+	@Override
+	public void screenDraw(Graphics2D g) {
+			g.drawImage(tileImage, xPosition, yPosition, null);
 	}
 
 	@Override

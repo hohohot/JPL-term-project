@@ -36,9 +36,23 @@ public class BuildableCityTile extends CityTile {
 	@Override
 	public void screenDraw(Graphics2D g) {
 		super.screenDraw(g);
-		if(buildingList.contains(BuildingType.VILLA)) g.drawImage(villaImage, xPosition+5, yPosition+5, null);
-		if(buildingList.contains(BuildingType.BUILDING)) g.drawImage(buildingImage, xPosition+5+20, yPosition+5, null);
-		if(buildingList.contains(BuildingType.HOTEL)) g.drawImage(hotelImage, xPosition+5+20+20, yPosition+5, null);
+		
+		if(blueMarble.getGui().selectingTripTile)
+			g.drawImage(clickableTileImage, xPosition, yPosition, null);
+		else if(blueMarble.getGui().selectingTile && blueMarble.getCurrentPlayer()==this.player)
+			g.drawImage(clickableTileImage, xPosition, yPosition, null);
+		else if(player == null) {
+			g.drawImage(tileImage, xPosition, yPosition, null);
+			if(buildingList.contains(BuildingType.VILLA)) g.drawImage(villaImage, xPosition+5, yPosition+5, null);
+			if(buildingList.contains(BuildingType.BUILDING)) g.drawImage(buildingImage, xPosition+5+20, yPosition+5, null);
+			if(buildingList.contains(BuildingType.HOTEL)) g.drawImage(hotelImage, xPosition+5+20+20, yPosition+5, null);
+		}
+		else {
+			g.drawImage(images[player.getId()], xPosition, yPosition, null);
+			if(buildingList.contains(BuildingType.VILLA)) g.drawImage(villaImage, xPosition+5, yPosition+5, null);
+			if(buildingList.contains(BuildingType.BUILDING)) g.drawImage(buildingImage, xPosition+5+20, yPosition+5, null);
+			if(buildingList.contains(BuildingType.HOTEL)) g.drawImage(hotelImage, xPosition+5+20+20, yPosition+5, null);
+		}
 	}
 	// ````````````````````````
 	
