@@ -19,9 +19,9 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public abstract class Player {
 	protected final BlueMarble blueMarble;
-	private String nameString;
-	private Long position = 0L;
-	private Long money = 100000L;
+	protected String nameString;
+	protected Long position = 0L;
+	protected Long money = 100000L;
 	private boolean isBanckupted = false;
 	
 	//------------------------------------------
@@ -29,7 +29,7 @@ public abstract class Player {
 	public ArrayList<Pair> positionList;
 	public int xPosition, xTemp;
 	public int yPosition, yTemp;
-	private int id;
+	protected int id;
 	
 	public void screenDraw(Graphics2D g) {
 		xPosition = positionList.get(Long.valueOf(Optional.ofNullable(position).orElse(0L)).intValue()).getX();

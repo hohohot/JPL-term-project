@@ -489,9 +489,9 @@ public class BlueMarble {
 		blueMarble.initTile(deck);
 		List<Player> players = new ArrayList<Player>() {{
 			add(new LocalPlayer(blueMarble));
-			add(new LocalPlayer(blueMarble));
-			add(new LocalPlayer(blueMarble));
-			add(new LocalPlayer(blueMarble));
+			add(new ComputerPlayer(blueMarble));
+			add(new ComputerPlayer(blueMarble));
+			add(new ComputerPlayer(blueMarble));
 		}};
 		blueMarble.setPlayers(players);
 		
