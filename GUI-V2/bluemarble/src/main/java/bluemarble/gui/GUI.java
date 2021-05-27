@@ -66,15 +66,16 @@ public class GUI extends JFrame implements MouseListener{
 	private ImageIcon rollButtonEnteredImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/rollButtonEntered.png"));
 	private ImageIcon exitButtonBasicImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/exitButtonBasic.png"));
 	private ImageIcon exitButtonEnteredImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/exitButtonEntered.png"));
-	private ImageIcon buyButtonBasicImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/BuyButtonBasic.png"));
-	private ImageIcon buyButtonEnteredImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/BuyButtonEntered.png"));
+	private ImageIcon buyButtonBasicImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/buyButtonBasic.png"));
+	private ImageIcon buyButtonEnteredImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/buyButtonEntered.png"));
 	private ImageIcon buyVillaButtonBasicImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/villaBasic.png"));
 	private ImageIcon buyVillaButtonEnteredImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/villaEntered.png"));
 	private ImageIcon buyBuildingButtonBasicImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/buildingBasic.png"));
 	private ImageIcon buyBuildingButtonEnteredImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/buildingEntered.png"));
 	private ImageIcon buyHotelButtonBasicImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/hotelBasic.png"));
 	private ImageIcon buyHotelButtonEnteredImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/hotelEntered.png"));
-	
+	private ImageIcon closeGoldenKeyCardImage = new ImageIcon(BlueMarble.class.getResource("/images/buttons/exitButtonBasic.png"));
+
 	private JButton rollButton = new JButton(rollButtonBasicImage);
 	private JButton exitButton = new JButton(exitButtonBasicImage);
 	private JButton tileBuyButton = new JButton(buyButtonBasicImage);
@@ -82,6 +83,7 @@ public class GUI extends JFrame implements MouseListener{
 	private JButton villaBuyButton = new JButton(buyVillaButtonBasicImage);
 	private JButton buildingBuyButton = new JButton(buyBuildingButtonBasicImage);
 	private JButton hotelBuyButton = new JButton(buyHotelButtonBasicImage);
+	private JButton goldenKeyCardButton = new JButton(closeGoldenKeyCardImage);
 	
 	
 	private JLabel villaCostLabel = new JLabel();
@@ -286,6 +288,29 @@ public class GUI extends JFrame implements MouseListener{
 		hotelCostLabel.setVisible(false);
 		add(hotelCostLabel);
 		
+		goldenKeyCardButton.setBounds(600, 190, 50, 25); // 버튼 위치
+		goldenKeyCardButton.setBorderPainted(false);
+		goldenKeyCardButton.setContentAreaFilled(false);
+		goldenKeyCardButton.setFocusPainted(false);
+		goldenKeyCardButton.addMouseListener(new MouseAdapter() { // 버튼 리스너 <- 암튼 버튼에 관한 마우스 액션을 감지
+			@Override
+			public void mouseEntered(MouseEvent e) { // 그러다가 커서를 가져다 놓는다는 액션
+				goldenKeyCardButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) { // 커서를 다시 떼놓는다는 액션
+				if(!unactiveButton) {
+					goldenKeyCardButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				}
+			}
+			@Override
+			public void mousePressed(MouseEvent e) { // 눌르는 액션 에 대해 이와 같은 행동을 한다 딴 액션들은 그냥 어뎁터 클래스가 리턴해줌
+				tileBuyBtnPushed = true;
+				goldenKeyCardButton.setVisible(false);
+			}
+		});
+		add(goldenKeyCardButton);
+		goldenKeyCardButton.setVisible(false);
 		
 		exitBuyButton.setBounds(680, 190, 50, 25);
 		exitBuyButton.setBorderPainted(false);
@@ -378,6 +403,9 @@ public class GUI extends JFrame implements MouseListener{
 
 	public void drawGoldenKeyCardView(Card card) {
 		//뽑은 황금열쇠카드 정보 그리기
+		card.screenDraw((Graphics2D)screenGraphic);
+		card.activateEffect();
+		goldenKeyCardButton.setVisible(true);
 	}
 	
 	public boolean selectBuyOrNot() {

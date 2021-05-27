@@ -93,7 +93,7 @@ public class BlueMarble {
 		nextTurn = 0;
 		
 				//gui.drawDice();
-		gui.drawGoldenKeyCardView(null);
+		//gui.drawGoldenKeyCardView(null);
 		while(turnCount < maxTurnLong) {
 			//initial draw
 
@@ -489,9 +489,9 @@ public class BlueMarble {
 		blueMarble.initTile(deck);
 		List<Player> players = new ArrayList<Player>() {{
 			add(new LocalPlayer(blueMarble));
-			add(new ComputerPlayer(blueMarble));
-			add(new ComputerPlayer(blueMarble));
-			add(new ComputerPlayer(blueMarble));
+			add(new LocalPlayer(blueMarble));
+			add(new LocalPlayer(blueMarble));
+			add(new LocalPlayer(blueMarble));
 		}};
 		blueMarble.setPlayers(players);
 		

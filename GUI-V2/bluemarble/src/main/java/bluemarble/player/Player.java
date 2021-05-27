@@ -2,6 +2,7 @@ package bluemarble.player;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.FontMetrics;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -36,6 +37,7 @@ public abstract class Player {
 		yPosition = positionList.get(Long.valueOf(Optional.ofNullable(position).orElse(0L)).intValue()).getY();
 		xTemp = xPosition;
 		yTemp = yPosition;
+		FontMetrics fm = g.getFontMetrics();
 		
 		switch(nameString) {
 		case "1":
@@ -53,6 +55,7 @@ public abstract class Player {
 		}
 		
 		g.drawImage(playerImage, xTemp, yTemp, null);
+		g.drawString(Long.toString(money), xTemp, yTemp+fm.getAscent())
 	}
 	//------------------------------------------
 	
