@@ -55,7 +55,7 @@ public abstract class Player {
 		}
 		
 		g.drawImage(playerImage, xTemp, yTemp, null);
-		g.drawString(Long.toString(money), xTemp, yTemp+fm.getAscent())
+		g.drawString(Long.toString(money), xTemp, yTemp+fm.getAscent());
 	}
 	//------------------------------------------
 	
