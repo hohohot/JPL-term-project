@@ -607,7 +607,6 @@ public class GUI extends JFrame implements MouseListener{
 	
 	
 	public int selectSellingTile() {
-		selectingTripTile = true;
 		List<Tile> tiles = this.blueMarble.getTiles();
 		
 		int idx;

@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import bluemarble.BlueMarble;
 import bluemarble.card.Card;
 import bluemarble.card.Deck;
+import bluemarble.player.LocalPlayer;
 import bluemarble.type.EventType;
 
 public class GoldenKeyTile extends Tile {
@@ -38,7 +39,8 @@ public class GoldenKeyTile extends Tile {
 	@Override
 	public EventType getStopEvent() {
 		Card card = deck.drawCard();
-		blueMarble.getGui().drawGoldenKeyCardView(card);
+		if(blueMarble.getCurrentPlayer() instanceof LocalPlayer)
+			blueMarble.getGui().drawGoldenKeyCardView(card);
 		return card.activateEffect();
 	}
 

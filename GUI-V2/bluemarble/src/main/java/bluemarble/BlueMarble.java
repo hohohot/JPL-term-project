@@ -2,6 +2,7 @@ package bluemarble;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,13 +89,27 @@ public class BlueMarble {
 		}
 	}
 	
+	public int countPlayer() {
+		int ret =0;
+		for(Player player: players) {
+			if(!player.isBanckupted())
+				ret++;
+		}
+		return ret;
+	}
+	
+	
+	
+	
+	
+	
 	public int play() {
 		turnCount = 0;
 		nextTurn = 0;
 		
 				//gui.drawDice();
 		//gui.drawGoldenKeyCardView(null);
-		while(turnCount < maxTurnLong) {
+		while(countPlayer() > 1) {
 			//initial draw
 
 			turnCount++;
@@ -207,6 +222,7 @@ public class BlueMarble {
 	
 	
 	public void bankruptCurrentPlayer() {
+		this.getCurrentPlayer().setMoney(-999L);
 		this.getCurrentPlayer().setBanckupted(true);
 	}
 	
@@ -488,12 +504,24 @@ public class BlueMarble {
 		blueMarble.setDeck(deck);
 		blueMarble.setDice(new Dice());
 		blueMarble.initTile(deck);
-		List<Player> players = new ArrayList<Player>() {{
-			add(new LocalPlayer(blueMarble));
-			add(new LocalPlayer(blueMarble));
-			add(new LocalPlayer(blueMarble));
-			add(new LocalPlayer(blueMarble));
-		}};
+		
+		
+		if(args.length < 1) {
+			System.out.println("입력파라미터가 부족합니다.");
+		}
+		
+		
+		
+		
+		
+		List<Player> players = new ArrayList<Player>();
+		for(int i = 0; i < Integer.parseInt(args[0]); i++) {
+			players.add(new LocalPlayer(blueMarble));
+		}
+		for(int i = 0; i < 4-Integer.parseInt(args[0]); i++) {
+			players.add(new ComputerPlayer(blueMarble));
+		}
+		Collections.shuffle(players);
 		blueMarble.setPlayers(players);
 		
 		//---------------------------------------
