@@ -29,6 +29,6 @@ public abstract class Card {
 		FontMetrics fm = g.getFontMetrics();
 		g.drawImage(cardImage, xPosition, yPosition, null);
 		g.drawString(titleString, xPosition+padding, yPosition+padding+fm.getAscent());
-		g.drawString(titleString, xPosition+padding, yPosition+padding+2*fm.getAscent());
+		g.drawString(descriptionString, xPosition+padding, yPosition+padding+2*fm.getAscent());
 	}
 }

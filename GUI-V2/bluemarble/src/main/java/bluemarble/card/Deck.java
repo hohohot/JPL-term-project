@@ -8,6 +8,7 @@ import javax.print.attribute.Size2DSyntax;
 
 import bluemarble.BlueMarble;
 import bluemarble.card.childs.SimpleCard;
+import bluemarble.card.childs.SpaceTripCard;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,8 +42,10 @@ public class Deck {
 		cards.clear();
 		idx = 0;
 		
-		for(int i = 0; i < 40; i++)
+		for(int i = 0; i < 40; i++) {
 			cards.add(new SimpleCard(blueMarble));
+			cards.add(new SpaceTripCard(blueMarble));
+		}
 		Collections.shuffle(cards);
 	}
 

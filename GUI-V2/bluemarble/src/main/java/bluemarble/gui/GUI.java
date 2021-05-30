@@ -86,6 +86,8 @@ public class GUI extends JFrame implements MouseListener{
 	private JButton goldenKeyCardButton = new JButton(closeGoldenKeyCardImage);
 	
 	
+	private Card target_card = null;
+	
 	private JLabel villaCostLabel = new JLabel();
 	private JLabel buildingCostLabel = new JLabel();
 	private JLabel hotelCostLabel = new JLabel();
@@ -101,7 +103,6 @@ public class GUI extends JFrame implements MouseListener{
 		setBackground(new Color(0, 0, 0, 0));
 		setLayout(null);
 		this.addMouseListener(this);
-		
 		buttonSetting();
 	}
 	
@@ -124,9 +125,12 @@ public class GUI extends JFrame implements MouseListener{
 			}
 			blueMarble.getDice().screenDraw(g);
 			if(openBuyBoard) g.drawImage(purchaseBoardImage, 240, 190, null);
+			if(target_card!=null)
+				target_card.screenDraw(g);
 			paintComponents(g); // 부가 요소들 직접 그리는 거 add한거
 		}
-
+		
+		
 		drawFinish = true;
 	}
 	
@@ -299,13 +303,11 @@ public class GUI extends JFrame implements MouseListener{
 			}
 			@Override
 			public void mouseExited(MouseEvent e) { // 커서를 다시 떼놓는다는 액션
-				if(!unactiveButton) {
-					goldenKeyCardButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				}
+				goldenKeyCardButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			}
 			@Override
 			public void mousePressed(MouseEvent e) { // 눌르는 액션 에 대해 이와 같은 행동을 한다 딴 액션들은 그냥 어뎁터 클래스가 리턴해줌
-				tileBuyBtnPushed = true;
+				target_card = null;
 				goldenKeyCardButton.setVisible(false);
 			}
 		});
@@ -403,9 +405,16 @@ public class GUI extends JFrame implements MouseListener{
 
 	public void drawGoldenKeyCardView(Card card) {
 		//뽑은 황금열쇠카드 정보 그리기
-		card.screenDraw((Graphics2D)screenGraphic);
-		card.activateEffect();
+		target_card = card;
 		goldenKeyCardButton.setVisible(true);
+		
+		while(target_card != null)
+			try {
+				Thread.sleep(10L);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 	public boolean selectBuyOrNot() {

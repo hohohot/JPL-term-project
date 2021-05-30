@@ -149,6 +149,7 @@ public class BlueMarble {
 			
 			//System.out.println("?");
 			
+			
 			//주사위에 의한 이동
 			if(startEvent != EventType.SKIP_MOVE) {
 				System.out.println("BEFORE Player" + player.getNameString() + ": " + Long.valueOf(Optional.ofNullable(player.getPosition()).orElse(0L)).intValue());
